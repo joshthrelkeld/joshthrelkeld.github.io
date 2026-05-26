@@ -353,6 +353,32 @@
     padding-left: 14px;
   }
 
+  .articles-hidden { display: none; }
+
+  .see-more-wrap {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .see-more-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .see-more-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+  }
+
   /* ABOUT */
   .about-grid {
     display: grid;
@@ -546,7 +572,7 @@
       <p class="section-label">Articles</p>
       <div class="articles-grid">
 
-        <!-- ARTICLE ENTRY — duplicate this block to add more -->
+        <!-- ARTICLES 1-5: always visible — add your first 5 entries here -->
         <div class="article-card">
           <h3 class="article-title">
             <a href="ARTICLE_URL_HERE" target="_blank" rel="noopener">Article Title Here</a>
@@ -561,6 +587,21 @@
         </div>
 
       </div>
+
+      <!-- ARTICLES 6+: hidden until "See more" is clicked — add extra entries here -->
+      <div class="articles-grid articles-hidden" id="articles-extra">
+
+        <!-- duplicate article-card blocks here for articles 6, 7, 8... -->
+
+      </div>
+
+      <div class="see-more-wrap" id="see-more-wrap">
+        <button class="see-more-btn" onclick="
+          document.getElementById('articles-extra').style.display='flex';
+          document.getElementById('see-more-wrap').style.display='none';
+        ">See more</button>
+      </div>
+
     </section>
 
     <section id="about">
