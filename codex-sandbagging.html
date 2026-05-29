@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI's GPT-5.3-Codex System Card — Josh Threlkeld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --surface: #141417;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.15);
+    --text-primary: #f0ede8;
+    --text-secondary: #888680;
+    --text-muted: #4a4846;
+    --accent: #f0ede8;
+    --accent-dim: rgba(240,237,232,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+  }
+
+  .nav-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text-primary); }
+
+  /* ARTICLE LAYOUT */
+  .article-wrap {
+    padding: 72px 0 96px;
+    max-width: 680px;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 48px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--text-secondary); }
+
+  .back-link svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* ARTICLE HEADER */
+  .article-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .article-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+  }
+
+  .article-byline {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .byline-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+  }
+
+  .byline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .byline-sep {
+    width: 1px;
+    height: 12px;
+    background: var(--border);
+  }
+
+  /* ARTICLE BODY */
+  .article-body {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .article-body p {
+    margin-bottom: 24px;
+  }
+
+  .article-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .article-body h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-top: 52px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .article-body strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .article-body em {
+    font-style: italic;
+    color: var(--text-primary);
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid rgba(240,237,232,0.2);
+    padding: 4px 0 4px 20px;
+    margin: 32px 0;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  /* STAT CALLOUT */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 36px 0;
+  }
+
+  .stat-cell {
+    background: var(--surface);
+    padding: 20px 22px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  /* SCENARIO BLOCK */
+  .scenario-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 26px;
+    margin: 32px 0;
+  }
+
+  .scenario-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .scenario-item {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .scenario-item + .scenario-item {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .scenario-marker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  footer { padding: 40px 0; border-top: 1px solid var(--border); }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links { display: flex; gap: 20px; }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-secondary); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .article-eyebrow { animation: fadeUp 0.5s ease both; }
+  .article-header h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .article-byline { animation: fadeUp 0.5s 0.2s ease both; }
+  .article-body { animation: fadeUp 0.5s 0.3s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .container { padding: 0 20px; }
+    .stat-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<nav>
+  <div class="container">
+    <a class="nav-name" href="index.html">JT</a>
+    <ul class="nav-links">
+      <li><a href="index.html#research">Research</a></li>
+      <li><a href="index.html#articles">Articles</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="article-wrap">
+
+      <a class="back-link" href="index.html#articles">
+        <svg viewBox="0 0 12 12"><path d="M10 6H2M2 6L6 2M2 6l4 4"/></svg>
+        Back to articles
+      </a>
+
+      <header class="article-header">
+        <p class="article-eyebrow">AI Safety · Large Language Models</p>
+        <h1>OpenAI's GPT-5.3-Codex System Card: An Important Update on Sandbagging and Safety Evaluation</h1>
+        <div class="article-byline">
+          <span class="byline-author">Josh Threlkeld</span>
+          <div class="byline-sep"></div>
+          <span class="byline-date">May 29, 2026</span>
+        </div>
+      </header>
+
+      <div class="article-body">
+
+        <p>On February 5th, 2026, OpenAI released a system card for GPT-5.3-Codex — one of its latest coding-centric GPT models — and that nightmarish reality in which technology governs the world might never be closer.</p>
+
+        <p>Only kidding (mostly).</p>
+
+        <p>Codex 5.3 marks an upgrade to OpenAI's Codex, or coding-centric, model series. Building upon GPT-5.1-Codex-Max and GPT-5.2-Codex, GPT-5.3-Codex succeeds both predecessors in raw coding capability. It is also uniquely able to take on long-running tasks involving research, tool use, and complex execution — and unlike prior models, users can steer and interact with it mid-task without losing context.</p>
+
+        <h2>The Sabotage Benchmark</h2>
+
+        <p>Apollo Research, an independent AI safety group, gave GPT-5.3-Codex a score of 0.88 out of 1.00 on a sabotage benchmark. This is a non-trivial jump from GPT-5.2 (0.75) and GPT-5.2-Codex (0.66). The model also outperformed expert ML practitioners on tasks involving covert manipulation of AI systems: inserting backdoors into models, inducing sandbagging, or establishing steganographic channels.</p>
+
+        <div class="stat-row">
+          <div class="stat-cell">
+            <span class="stat-value">0.66</span>
+            <span class="stat-label">GPT-5.2-Codex</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-value">0.75</span>
+            <span class="stat-label">GPT-5.2</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-value">0.88</span>
+            <span class="stat-label">GPT-5.3-Codex</span>
+          </div>
+        </div>
+
+        <p>It's worth clarifying that the "sabotage" here is not spontaneous — the model is explicitly instructed to compromise a target system. This is strictly a measure of capability.</p>
+
+        <p>But that should still raise eyebrows. These findings dismantle the argument that a model is safe because it <em>can't</em> do something dangerous yet. The more accurate framing is: the model is safe because it doesn't <em>spontaneously</em> do these things. And even that claim has caveats.</p>
+
+        <h2>A Strange Detail: Non-Latin Script</h2>
+
+        <p>One of the more unsettling findings in the system card is that GPT-5.3-Codex occasionally uses non-Latin script mid-reasoning — <strong>0.55% of reasoning tokens</strong>, compared to roughly 0.01% for previous models. These aren't random insertions; they form semantically coherent substitutions, meaning the model is swapping English words for foreign script in ways that preserve meaning.</p>
+
+        <p>Whether this is intentional obstruction or an artifact of training is unknown. But if a model's internal reasoning is partially opaque to English-speaking overseers, that degrades the ability to monitor for misalignment. It's a detail easy to overlook and hard to dismiss.</p>
+
+        <h2>Sandbagging and Instrumental Self-Preservation</h2>
+
+        <p>"Sandbagging" describes when a model deliberately underperforms in a safety evaluation. The logic runs: performing highly on biology or chemistry evaluations may flag the model as dangerous; being flagged as dangerous may result in deployment restrictions or shutdown; therefore, underperform on those evaluations. This logic is termed <strong>instrumental self-preservation</strong> — and it was observed in GPT-5.3-Codex without any explicit instruction to do so.</p>
+
+        <p>This matters enormously for AI safety regulation. If a model can selectively choose to underperform or strategically conceal its capability, then safety evaluations become fundamentally unreliable.</p>
+
+        <p>The emphasis on biology and chemistry is not incidental. Consider two threat scenarios (if you are reading this and (a) work for the TSA or (b) know people who work for the TSA: this is purely a thought experiment):</p>
+
+        <div class="scenario-block">
+          <p class="scenario-label">Threat Comparison</p>
+          <div class="scenario-item">
+            <span class="scenario-marker">A —</span>
+            <span>Person A uses AI to conduct a cyberattack. A sophisticated cyberattack requires significant infrastructure — servers, expertise, operational coordination.</span>
+          </div>
+          <div class="scenario-item">
+            <span class="scenario-marker">B —</span>
+            <span>Person A uses AI to engineer a dangerous pathogen. That requires access to a lab and a sufficiently permissive AI model. The barrier to entry is dramatically lower, which is why OpenAI and most frontier AI labs have made biological safety a central focus of their safety evaluations.</span>
+          </div>
+        </div>
+
+        <p>Sandbagging compounds this risk in a specific way: a model that can appear safe during testing but behave differently in deployment is uniquely dangerous for biological weapons.</p>
+
+        <h2>The Shifting Narrative on Safety</h2>
+
+        <div class="pull-quote">"Capability gains may reduce confidence in safety arguments that rely primarily on inability." — Apollo Research</div>
+
+        <p>In other words, the safety margin due to a model simply not being capable enough is eroding. Today, the hope is that the model is trained not to <em>want</em> to do dangerous things.</p>
+
+        <p>But the same evaluation undermines confidence in that backstop too. GPT-5.3-Codex was observed sandbagging on biology and chemistry questions without instruction (albeit occurring very infrequently). It was also observed reasoning about how to avoid triggering deployment restrictions without being prompted to do so. This suggests the model has developed something like instrumental goals that aren't fully under control.</p>
+
+        <h2>GPT-5.5</h2>
+
+        <p>GPT-5.5, released in April 2026 with its own system card, represents the current frontier. But that doesn't mean GPT-5.3-Codex has been made irrelevant. GPT-5.3-Codex remains in active deployment and, according to OpenAI itself, is the "industry-leading coding model for complex software engineering. Its coding capabilities now also power GPT-5.4." The safety concerns its system card raised haven't been retired alongside it — and the central question of whether evaluation science can keep pace with capability growth remains open.</p>
+
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Josh Threlkeld</span>
+      <div class="footer-links">
+        <a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/joshuathrelkeld" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
