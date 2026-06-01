@@ -31,8 +31,9 @@ ts<!DOCTYPE html>
     font-weight: 300;
     line-height: 1.7;
     min-height: 100vh;
+    overflow-x: hidden;
   }
-
+ 
   .grain {
     position: fixed;
     inset: 0;
@@ -569,7 +570,9 @@ ts<!DOCTYPE html>
       </div>
     </section>
 
-    <!-- ARTICLES 1-5: always visible — add your first 5 entries here -->
+<section id="articles">
+      <p class="section-label">Articles</p>
+      <div class="articles-grid">
         <div class="article-card">
           <h3 class="article-title">
             <a href="codex-sandbagging.html">OpenAI's GPT-5.3-Codex: Sandbagging and the Shifting Safety Calculus</a>
@@ -595,6 +598,7 @@ ts<!DOCTYPE html>
           </p>
         </div>
 
+     </div>
       </div>
 
       <!-- ARTICLES 6+: hidden until "See more" is clicked — add extra entries here -->
