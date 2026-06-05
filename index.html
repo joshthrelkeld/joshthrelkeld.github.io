@@ -486,6 +486,7 @@
     <a class="nav-name" href="#">JT</a>
     <ul class="nav-links">
       <li><a href="#research">Research</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#articles">Articles</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener">GitHub</a></li>
@@ -574,7 +575,67 @@
       </div>
     </section>
 
-<section id="articles">
+    <section id="projects">
+      <p class="section-label">Projects</p>
+      <div class="papers-grid">
+
+        <a class="paper-card" href="https://github.com/joshthrelkeld/clinical-nlp-rag" target="_blank" rel="noopener">
+          <div class="paper-meta">
+            <span class="paper-tag">Clinical NLP · RAG</span>
+            <span class="paper-year">2026</span>
+          </div>
+          <h2 class="paper-title">Clinical NLP RAG Assistant</h2>
+          <p class="paper-abstract">
+            Conversational Q&amp;A system over seven peer-reviewed and preprint papers on ambient AI documentation
+            in clinical settings. Sources span Abridge, Suki, and UCI Health deployments. Enables natural language
+            access to the literature without manual search. Containerized with Docker for reproducible deployment.
+          </p>
+          <div class="paper-footer">
+            <div class="paper-keywords">
+              <span class="keyword">LangChain</span>
+              <span class="keyword">ChromaDB</span>
+              <span class="keyword">RAG</span>
+              <span class="keyword">Docker</span>
+              <span class="keyword">Anthropic API</span>
+            </div>
+            <span class="paper-link">
+              GitHub
+              <svg viewBox="0 0 12 12" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="paper-card" href="https://github.com/joshthrelkeld/eeg-rag-assistant" target="_blank" rel="noopener">
+          <div class="paper-meta">
+            <span class="paper-tag">EEG · RAG</span>
+            <span class="paper-year">2026</span>
+          </div>
+          <h2 class="paper-title">EEG RAG Assistant</h2>
+          <p class="paper-abstract">
+            Question-answering system grounded in a published EEG anxiety classification paper.
+            Ingests the PDF, embeds chunks with a local sentence transformer, stores them in ChromaDB,
+            and retrieves context for Claude to generate answers. Built on top of original research
+            to demonstrate RAG applied to domain-specific neuroscience literature.
+          </p>
+          <div class="paper-footer">
+            <div class="paper-keywords">
+              <span class="keyword">LangChain</span>
+              <span class="keyword">ChromaDB</span>
+              <span class="keyword">RAG</span>
+              <span class="keyword">Sentence Transformers</span>
+              <span class="keyword">Anthropic API</span>
+            </div>
+            <span class="paper-link">
+              GitHub
+              <svg viewBox="0 0 12 12" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="articles">
       <p class="section-label">Articles</p>
       <div class="articles-grid">
         <div class="article-card">
