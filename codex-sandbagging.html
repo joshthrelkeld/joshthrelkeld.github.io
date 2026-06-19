@@ -339,10 +339,14 @@
   .article-body { animation: fadeUp 0.5s 0.3s ease both; }
 
   /* RESPONSIVE */
-  @media (max-width: 600px) {
-    .container { padding: 0 20px; }
-    .stat-row { grid-template-columns: 1fr; }
-  }
+ @media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .stat-row { grid-template-columns: 1fr; }
+  .article-wrap { padding: 48px 0 72px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 11px; }
+  .nav-links li:last-child { display: none; }
+}
 </style>
 </head>
 <body>
