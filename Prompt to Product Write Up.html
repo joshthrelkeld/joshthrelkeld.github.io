@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Prompt to Product &#8212; Josh Threlkeld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --surface: #141417;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.15);
+    --text-primary: #f0ede8;
+    --text-secondary: #888680;
+    --text-muted: #4a4846;
+    --accent: #f0ede8;
+    --accent-dim: rgba(240,237,232,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+  }
+
+  .nav-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text-primary); }
+
+  /* ARTICLE LAYOUT */
+  .article-wrap {
+    padding: 72px 0 96px;
+    max-width: 680px;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 48px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--text-secondary); }
+
+  .back-link svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* ARTICLE HEADER */
+  .article-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .article-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+  }
+
+  .article-byline {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .byline-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+  }
+
+  .byline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .byline-sep {
+    width: 1px;
+    height: 12px;
+    background: var(--border);
+  }
+
+  /* ARTICLE BODY */
+  .article-body {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .article-body p {
+    margin-bottom: 24px;
+  }
+
+  .article-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .article-body h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-top: 52px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .article-body strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .article-body em {
+    font-style: italic;
+    color: var(--text-primary);
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid rgba(240,237,232,0.2);
+    padding: 4px 0 4px 20px;
+    margin: 32px 0;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  /* STAT CALLOUT */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 36px 0;
+  }
+
+  .stat-cell {
+    background: var(--surface);
+    padding: 20px 22px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  /* SCENARIO BLOCK */
+  .scenario-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 26px;
+    margin: 32px 0;
+  }
+
+  .scenario-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .scenario-item {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .scenario-item + .scenario-item {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .scenario-marker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    padding-top: 2px;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+
+  /* FOOTER */
+  footer { padding: 40px 0; border-top: 1px solid var(--border); }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links { display: flex; gap: 20px; }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-secondary); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .article-eyebrow { animation: fadeUp 0.5s ease both; }
+  .article-header h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .article-byline { animation: fadeUp 0.5s 0.2s ease both; }
+  .article-body { animation: fadeUp 0.5s 0.3s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .container { padding: 0 20px; }
+    .stat-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<nav>
+  <div class="container">
+    <a class="nav-name" href="index.html">JT</a>
+    <ul class="nav-links">
+      <li><a href="index.html#research">Research</a></li>
+      <li><a href="index.html#articles">Articles</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="article-wrap">
+
+      <a class="back-link" href="index.html#articles">
+        <svg viewBox="0 0 12 12"><path d="M10 6H2M2 6L6 2M2 6l4 4"/></svg>
+        Back to articles
+      </a>
+
+      <header class="article-header">
+        <p class="article-eyebrow">AI Research · Product Development</p>
+        <h1>Write-up of &#8220;From Prompt to Product: A Human-Centered Benchmark of Agentic App Generation Systems&#8221;</h1>
+        <div class="article-byline">
+          <span class="byline-author">Josh Threlkeld</span>
+          <div class="byline-sep"></div>
+          <span class="byline-date">June 19, 2026</span>
+        </div>
+      </header>
+
+      <div class="article-body">
+
+        <p>I grew up with apps being critical &#8212; from True Skate and Brawl Stars to Instagram and Snapchat. I&#8217;d viewed app builders (probably) like the ancient Greeks and Romans viewed sculptors. That&#8217;s changed. Today, every person has access to marble, a chisel, and clear instructions &#8212; and that&#8217;s only for the people who still care to do the actual carving.</p>
+
+        <p>Quome Inc.&#8217;s recent paper, <em>From Prompt to Product: A Human-Centered Benchmark of Agentic App Generation Systems</em>, details the rapid evolution of LLM-accelerated, deployable web applications. Ortiz et al. evaluated three &#8220;prompt-to-app&#8221; generation systems &#8212; Replit, Bolt, and Firebase Studio &#8212; using a set of 96 prompts spanning domains like healthcare, legal, real estate, financial services, government, and education. Those prompts produced 288 unique application artifacts (96 from each platform), which were then assessed in a human-rater study of 205 participants and 1,071 quality-filtered pairwise comparisons.</p>
+
+        <p>The study used a two-stage design. In the isolated stage, raters evaluated each app on its own across two five-point measures: clarity (&#8220;How clear is the app&#8217;s purpose?&#8221;) and ease of use (&#8220;How easy or difficult was this task?&#8221;), the latter tied to completing a specific functional task inside the app. In the comparison stage, raters used both apps on the same task and then judged them side-by-side on visual appeal, visual appropriateness, comparative ease, and trust.</p>
+
+        <h2>The isolated stage: near-identical performance</h2>
+
+        <p>In isolation, the three systems performed nearly identically. All scores below are adjusted via Linear Mixed-Effects Models that control for participant grading bias (harsh vs. lenient raters), prompt difficulty, and presentation order.</p>
+
+        <div class="scenario-block">
+          <p class="scenario-label">Isolated Stage &#8212; Adjusted LMM Scores (5-Point Scale)</p>
+          <div class="scenario-item">
+            <span class="scenario-marker">CLARITY</span>
+            <span>Replit: 3.96 &nbsp;&middot;&nbsp; Bolt: 3.95 &nbsp;&middot;&nbsp; Firebase: 3.92<br>No statistically significant differences between any pair; p &gt; 0.5</span>
+          </div>
+          <div class="scenario-item">
+            <span class="scenario-marker">EASE OF USE</span>
+            <span>Replit: 3.85 &nbsp;&middot;&nbsp; Bolt: 3.81 &nbsp;&middot;&nbsp; Firebase: 3.68</span>
+          </div>
+        </div>
+
+        <p>The only statistically significant difference in the isolated stage was Firebase scoring lower than Bolt on ease of use (&#946; = &#8722;0.130, p = 0.029). The Replit-vs-Bolt difference was not significant (p = 0.51). Across any single metric, the spread between platforms never exceeded 0.28 points on a 5-point scale.</p>
+
+        <p>Taken alone, these results would suggest a relatively commoditized market: little difference in user opinion on the quality of these products. Read in isolation, Firebase even looks like the weakest of the three on ease of use.</p>
+
+        <h2>The comparison stage: a completely different story</h2>
+
+        <p>Once raters used both apps on the same task and compared them directly, a clear hierarchy emerged. Firebase achieved the highest win rate across all four metrics.</p>
+
+        <div class="scenario-block">
+          <p class="scenario-label">Comparison Stage &#8212; Win Rates</p>
+          <div class="scenario-item">
+            <span class="scenario-marker">EASE OVERALL</span>
+            <span>Firebase: 42.5% &nbsp;&middot;&nbsp; Bolt: 31.7% &nbsp;&middot;&nbsp; Replit: 26.0%</span>
+          </div>
+          <div class="scenario-item">
+            <span class="scenario-marker">TRUST</span>
+            <span>Firebase: 41.2% &nbsp;&middot;&nbsp; Bolt: 29.2% &nbsp;&middot;&nbsp; Replit: 22.7%</span>
+          </div>
+          <div class="scenario-item">
+            <span class="scenario-marker">VISUAL APPEAL</span>
+            <span>Firebase: 45.5% &nbsp;&middot;&nbsp; Bolt: 36.8% &nbsp;&middot;&nbsp; Replit: 28.9%</span>
+          </div>
+          <div class="scenario-item">
+            <span class="scenario-marker">VISUAL APPROP.</span>
+            <span>Firebase: 45.1% &nbsp;&middot;&nbsp; Bolt: 33.9% &nbsp;&middot;&nbsp; Replit: 28.9%</span>
+          </div>
+        </div>
+
+        <p>The remaining percentages in each metric that don&#8217;t sum to 100% represent cases where users expressed no preference between the two platforms they were comparing.</p>
+
+        <p>Firebase&#8217;s advantages over Bolt were statistically significant across all four dimensions: Trust (&#946; = 0.051), Visual Appropriateness (&#946; = 0.049), Visual Appeal (&#946; = 0.042), and Ease Overall (&#946; = 0.034), all at p &lt; 0.05. Replit, in turn, performed significantly worse than Bolt across most dimensions, particularly Trust and Ease Overall. Effect sizes (measured via Cliff&#8217;s Delta) were largest for Firebase over Bolt in Visual Appropriateness (&#916; = &#8722;0.234) and Visual Appeal (&#916; = &#8722;0.212), and for Firebase over Replit in Trust (&#916; = 0.198) &#8212; all classified as &#8220;small.&#8221;</p>
+
+        <p>The paper&#8217;s final leaderboard combines normalized LMM scores with Bradley-Terry tournament win rates into a composite score.</p>
+
+        <div class="stat-row">
+          <div class="stat-cell">
+            <span class="stat-value">1.302</span>
+            <span class="stat-label">Replit</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-value">1.561</span>
+            <span class="stat-label">Bolt</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-value">1.933</span>
+            <span class="stat-label">Firebase</span>
+          </div>
+        </div>
+
+        <p>Firebase ranked first at 1.933, Bolt second at 1.561, and Replit third at 1.302, forming a consistent Firebase &gt; Bolt &gt; Replit hierarchy across every statistical approach used.</p>
+
+        <h2>Why the gap between stages matters</h2>
+
+        <p>The authors draw two conclusions from this divergence. First, that independent assessments are statistically indistinguishable, suggesting raters struggle to provide reliable reference-free evaluations in this domain. This makes side-by-side comparison the only reliable methodology for establishing a meaningful benchmark. Second, that the systems &#8220;are not interchangeable&#8221; and the market &#8220;is not yet commoditized,&#8221; because a single system outperformed competitors across every measured axis.</p>
+
+        <div class="pull-quote">human judgment about software quality is relative, not absolute</div>
+
+        <p>That divergence implies something fundamental: human judgment about software quality is relative, not absolute. Without something to compare against, users can&#8217;t reliably detect differences that are nonetheless real. Their isolated ratings converge toward the middle of the scale regardless of actual platform quality.</p>
+
+        <h2>The implication for capital</h2>
+
+        <p><em>(The following is my interpretation. The paper itself does not discuss funding, cost, or capital allocation.)</em></p>
+
+        <p>From a funding standpoint, this distinction is critical. The isolated metrics&#8217; implication that the market is commoditized is dispelled by the comparison metrics, which show significant differences in user preference. If the only signal capable of surfacing those differences is side-by-side human evaluation, then much of the evidence investors and procurement teams rely on, such as automated benchmarks, code-quality scores, and deployment success rates, are precisely the kind of isolated signals this study shows are insufficient to detect platform differences. The comparative signal that does surface them is not something that shows up in a pitch deck or a technical due-diligence checklist. That is to say: these results matter because they suggest capital may currently be allocated based on metrics that are structurally blind to user trust.</p>
+
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-copy">&#169; 2026 Josh Threlkeld</span>
+      <div class="footer-links">
+        <a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/joshuathrelkeld" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
