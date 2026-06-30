@@ -438,7 +438,14 @@
   .cred-value { color: var(--text-secondary); }
 
   /* FOOTER */
-  footer { padding: 40px 0; }
+  footer {
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+  }
 
   .footer-inner {
     display: flex;
@@ -510,6 +517,22 @@
 }
 
 .hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+#footer-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+footer > * {
   position: relative;
   z-index: 1;
 }
@@ -752,6 +775,7 @@
 </main>
 
 <footer>
+  <canvas id="footer-canvas"></canvas>
   <div class="container">
     <div class="footer-inner">
       <span class="footer-copy">© 2026 Josh Threlkeld</span>
@@ -878,6 +902,223 @@
   requestAnimationFrame(frame);
 })();
 </script>
- 
+
+<script>
+(function() {
+  const canvas = document.getElementById('footer-canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+
+  const vert = `
+    attribute vec2 a_pos;
+
+    uniform mat4 u_proj;
+    uniform mat4 u_view;
+    uniform float u_time;
+
+    varying float v_dist;
+
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+    vec2 fade(vec2 t) { return t*t*t*(t*(t*6.0-15.0)+10.0); }
+
+    float cnoise(vec2 P) {
+      vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
+      vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
+      Pi = mod289(Pi);
+      vec4 ix = Pi.xzxz;
+      vec4 iy = Pi.yyww;
+      vec4 fx = Pf.xzxz;
+      vec4 fy = Pf.yyww;
+
+      vec4 i = permute(permute(ix) + iy);
+
+      vec4 gx = fract(i * (1.0 / 41.0)) * 2.0 - 1.0;
+      vec4 gy = abs(gx) - 0.5;
+      vec4 tx = floor(gx + 0.5);
+      gx = gx - tx;
+
+      vec2 g00 = vec2(gx.x, gy.x);
+      vec2 g10 = vec2(gx.y, gy.y);
+      vec2 g01 = vec2(gx.z, gy.z);
+      vec2 g11 = vec2(gx.w, gy.w);
+
+      vec4 norm = taylorInvSqrt(vec4(dot(g00,g00), dot(g01,g01), dot(g10,g10), dot(g11,g11)));
+      g00 *= norm.x; g01 *= norm.y; g10 *= norm.z; g11 *= norm.w;
+
+      float n00 = dot(g00, vec2(fx.x, fy.x));
+      float n10 = dot(g10, vec2(fx.y, fy.y));
+      float n01 = dot(g01, vec2(fx.z, fy.z));
+      float n11 = dot(g11, vec2(fx.w, fy.w));
+
+      vec2 fade_xy = fade(Pf.xy);
+      vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
+      float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
+      return 2.3 * n_xy;
+    }
+
+    void main() {
+      vec2 p = a_pos;
+      vec2 np = vec2(p.x * 0.12, (p.y + u_time) * 0.12);
+      float n = cnoise(np) * 1.4 + cnoise(np * 2.3 + 5.0) * 0.5;
+      v_dist = length(p);
+      gl_Position = u_proj * u_view * vec4(p.x, n, p.y, 1.0);
+    }
+  `;
+
+  const frag = `
+    precision mediump float;
+    uniform float u_maxDist;
+    varying float v_dist;
+
+    void main() {
+      float fade = 1.0 - smoothstep(0.0, u_maxDist, v_dist);
+      vec3 accent = vec3(0.925, 0.310, 0.008);
+      gl_FragColor = vec4(accent, fade * 0.55);
+    }
+  `;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s));
+    }
+    return s;
+  }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(prog));
+    return;
+  }
+  gl.useProgram(prog);
+
+  // Grid: x across [-W/2, W/2], z (depth) across [0, -D] receding from camera.
+  const SEGMENTS = 46;
+  const W = 36;
+  const D = 50;
+  const verts = new Float32Array((SEGMENTS + 1) * (SEGMENTS + 1) * 2);
+  let vi = 0;
+  for (let j = 0; j <= SEGMENTS; j++) {
+    const z = (j / SEGMENTS) * -D;
+    for (let i = 0; i <= SEGMENTS; i++) {
+      const x = (i / SEGMENTS - 0.5) * W;
+      verts[vi++] = x;
+      verts[vi++] = z;
+    }
+  }
+
+  const lineIdx = [];
+  const rowLen = SEGMENTS + 1;
+  for (let j = 0; j <= SEGMENTS; j++) {
+    for (let i = 0; i < SEGMENTS; i++) {
+      const a = j * rowLen + i;
+      lineIdx.push(a, a + 1);
+    }
+  }
+  for (let i = 0; i <= SEGMENTS; i++) {
+    for (let j = 0; j < SEGMENTS; j++) {
+      const a = j * rowLen + i;
+      lineIdx.push(a, a + rowLen);
+    }
+  }
+  const indices = new Uint16Array(lineIdx);
+  const maxDist = Math.hypot(W / 2, D);
+
+  const vbuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
+  gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+
+  const ibuf = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+  const posLoc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const uProj = gl.getUniformLocation(prog, 'u_proj');
+  const uView = gl.getUniformLocation(prog, 'u_view');
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uMaxDist = gl.getUniformLocation(prog, 'u_maxDist');
+  gl.uniform1f(uMaxDist, maxDist);
+
+  // -- minimal hand-rolled matrix math (column-major, WebGL convention) --
+  function perspective(fovy, aspect, near, far) {
+    const f = 1.0 / Math.tan(fovy / 2);
+    const nf = 1 / (near - far);
+    const m = new Float32Array(16);
+    m[0] = f / aspect; m[5] = f; m[10] = (far + near) * nf; m[11] = -1;
+    m[14] = (2 * far * near) * nf;
+    return m;
+  }
+
+  function lookAt(eye, center, up) {
+    let zx = eye[0] - center[0], zy = eye[1] - center[1], zz = eye[2] - center[2];
+    let len = Math.hypot(zx, zy, zz);
+    zx /= len; zy /= len; zz /= len;
+
+    let xx = up[1] * zz - up[2] * zy;
+    let xy = up[2] * zx - up[0] * zz;
+    let xz = up[0] * zy - up[1] * zx;
+    len = Math.hypot(xx, xy, xz);
+    xx /= len; xy /= len; xz /= len;
+
+    const yx = zy * xz - zz * xy;
+    const yy = zz * xx - zx * xz;
+    const yz = zx * xy - zy * xx;
+
+    return new Float32Array([
+      xx, yx, zx, 0,
+      xy, yy, zy, 0,
+      xz, yz, zz, 0,
+      -(xx * eye[0] + xy * eye[1] + xz * eye[2]),
+      -(yx * eye[0] + yy * eye[1] + yz * eye[2]),
+      -(zx * eye[0] + zy * eye[1] + zz * eye[2]),
+      1
+    ]);
+  }
+
+  const view = lookAt([0, 6, 9], [0, -3, -16], [0, 1, 0]);
+  gl.uniformMatrix4fv(uView, false, view);
+
+  gl.enable(gl.DEPTH_TEST);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.clearColor(0, 0, 0, 0);
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    const proj = perspective(50 * Math.PI / 180, canvas.width / canvas.height, 0.1, 200);
+    gl.uniformMatrix4fv(uProj, false, proj);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let elapsed = 0;
+  let last = null;
+
+  function frame(ts) {
+    if (!last) last = ts;
+    elapsed += (ts - last) * 0.001 * 1.4;
+    last = ts;
+    gl.uniform1f(uTime, elapsed);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.drawElements(gl.LINES, indices.length, gl.UNSIGNED_SHORT, 0);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
 </body>
 </html>
