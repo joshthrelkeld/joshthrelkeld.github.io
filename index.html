@@ -16,15 +16,15 @@
   }
 
   :root {
-    --bg: #0d0d0f;
-    --surface: #141417;
-    --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(255,255,255,0.15);
-    --text-primary: #f0ede8;
-    --text-secondary: #888680;
-    --text-muted: #4a4846;
-    --accent: #f0ede8;
-    --accent-dim: rgba(240,237,232,0.06);
+    --bg: #f9f6ee;
+    --surface: #f1eadd;
+    --border: rgba(30,26,20,0.10);
+    --border-hover: rgba(30,26,20,0.18);
+    --text-primary: #262320;
+    --text-secondary: #5c584f;
+    --text-muted: #9b9488;
+    --accent: #262320;
+    --accent-dim: rgba(38,35,32,0.06);
   }
 
 
@@ -61,7 +61,7 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    background: rgba(13,13,15,0.85);
+    background: rgba(249,246,238,0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -163,12 +163,12 @@
   .btn-primary {
     background: var(--accent-dim);
     color: var(--accent);
-    border-color: rgba(240,237,232,0.2);
+    border-color: rgba(38,35,32,0.2);
   }
 
   .btn-primary:hover {
-    background: rgba(240,237,232,0.1);
-    border-color: rgba(240,237,232,0.3);
+    background: rgba(38,35,32,0.1);
+    border-color: rgba(38,35,32,0.3);
   }
 
   .btn-ghost {
@@ -216,7 +216,7 @@
 
   .paper-card:hover {
     border-color: var(--border-hover);
-    background: #18181c;
+    background: #ece2d0;
   }
 
   .paper-meta {
@@ -235,7 +235,7 @@
     border-radius: 3px;
     background: var(--accent-dim);
     color: var(--accent);
-    border: 1px solid rgba(240,237,232,0.12);
+    border: 1px solid rgba(38,35,32,0.12);
   }
 
   .paper-year {
@@ -321,7 +321,7 @@
   }
 
   .article-card:last-child { border-bottom: none; }
-  .article-card:hover { background: #18181c; }
+  .article-card:hover { background: #ece2d0; }
 
   .article-title {
     font-family: 'DM Serif Display', serif;
@@ -334,7 +334,7 @@
   .article-title a {
     color: var(--text-primary);
     text-decoration: none;
-    border-bottom: 1px solid rgba(240,237,232,0.15);
+    border-bottom: 1px solid rgba(38,35,32,0.15);
     transition: border-color 0.2s;
   }
 
@@ -406,7 +406,7 @@
   .about-body a {
     color: var(--accent);
     text-decoration: none;
-    border-bottom: 1px solid rgba(240,237,232,0.2);
+    border-bottom: 1px solid rgba(38,35,32,0.2);
     transition: border-color 0.2s;
   }
 
@@ -513,7 +513,7 @@
   pointer-events: none;
   z-index: 0;
   opacity: 0.35;
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
 }
 
 .hero > * {
@@ -529,7 +529,7 @@
   pointer-events: none;
   z-index: 0;
   opacity: 0.5;
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
 }
 
 footer > * {
@@ -562,7 +562,7 @@ footer > * {
     <div class="container">
       <p class="hero-eyebrow">Neuroscience · Machine Learning</p>
       <div class="hero-top">
-        <h1><span style="color:#f0ede8;">Josh</span> <span style="color:#f0ede8;">Threlkeld</span></h1>
+        <h1><span style="color:#262320;">Josh</span> <span style="color:#262320;">Threlkeld</span></h1>
         <div class="hero-links">
           <a href="#research" class="btn btn-primary">
             <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5"/></svg>
@@ -761,7 +761,7 @@ footer > * {
           </div>
           <div class="cred-row">
             <span class="cred-label">GitHub</span>
-            <span class="cred-value"><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(240,237,232,0.2);">github.com/joshthrelkeld</a></span>
+            <span class="cred-value"><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(38,35,32,0.2);">github.com/joshthrelkeld</a></span>
           </div>
           <div class="cred-row">
             <span class="cred-label">Location</span>
@@ -838,7 +838,7 @@ footer > * {
       float threshold = bayer4(gl_FragCoord.xy);
       float dithered = step(threshold, noise);
 
-      vec3 accent = vec3(0.925, 0.310, 0.008);
+      vec3 accent = vec3(0.106, 0.286, 0.396);
       vec3 col = accent * dithered;
       gl_FragColor = vec4(col, dithered * 0.9);
     }
@@ -974,7 +974,7 @@ footer > * {
 
     void main() {
       float fade = 1.0 - smoothstep(0.0, u_maxDist, v_dist);
-      vec3 accent = vec3(0.925, 0.310, 0.008);
+      vec3 accent = vec3(0.106, 0.286, 0.396);
       gl_FragColor = vec4(accent, fade * 0.55);
     }
   `;
