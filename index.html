@@ -197,6 +197,8 @@
     margin-bottom: 28px;
   }
 
+  .section-label.sub { margin-top: 40px; }
+
   /* PAPER CARDS */
   .papers-grid {
     display: grid;
@@ -501,7 +503,6 @@
   .container { padding: 0 16px; }
   .nav-links { gap: 10px; }
   .nav-links a { font-size: 11px; }
-  .nav-links li:last-child { display: none; }
   section { padding: 48px 0; }
 }
 
@@ -547,11 +548,10 @@ footer > * {
   <div class="container">
     <a class="nav-name" href="#">JT</a>
     <ul class="nav-links">
-      <li><a href="#research">Research</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#articles">Articles</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#technical">Technical</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="Josh-Threlkeld-Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </div>
 </nav>
@@ -560,75 +560,72 @@ footer > * {
   <section class="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="container">
-      <p class="hero-eyebrow"> Neuroscience · Life Sciences Strategy </p>
+      <p class="hero-eyebrow">Neuroscience · Life Sciences Strategy</p>
       <div class="hero-top">
-        <h1><span style="color:#262320;">Josh</span> <span style="color:#262320;">Threlkeld</span></h1>
+        <h1>Josh Threlkeld</h1>
         <div class="hero-links">
-          <a href="#research" class="btn btn-primary">
+          <a href="#work" class="btn btn-primary">
             <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5"/></svg>
-            View research
+            View work
           </a>
-          <a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener" class="btn btn-ghost">
-            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            GitHub
+          <a href="Josh-Threlkeld-Resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 1.5h5l3 3v10H4z"/><path d="M9 1.5v3h3"/></svg>
+            Resume
           </a>
         </div>
       </div>
-        <p class="hero-sub">
-      Research Associate, Facial Pain Research Foundation · B.S. Neuroscience, USC (Cum Laude) · Provost Research Fellow · Acknowledged in Colt et al., <em>PNAS</em> (2026)
-    </p>
-    
+      <p class="hero-sub">
+        Research Associate, Facial Pain Research Foundation · B.S. Neuroscience, USC (Cum Laude) · Provost Research Fellow · Acknowledged in Colt et al., <em>PNAS</em> (2026)
+      </p>
     </div>
   </section>
 
   <div class="container">
 
-    <section id="research">
-      <p class="section-label">Research</p>
+    <section id="work">
+      <p class="section-label">Work</p>
       <div class="papers-grid">
 
-        <a class="paper-card" href="https://josh-threlkeld.com/Resting-EEG-and-Anxiety.pdf" target="_blank" rel="noopener">
+        <a class="paper-card" href="https://github.com/joshthrelkeld/cms-readmission-analysis" target="_blank" rel="noopener">
           <div class="paper-meta">
-            <span class="paper-tag">EEG · Classification</span>
-            <span class="paper-year">February 2026 - May 2026</span>
+            <span class="paper-tag">Medicare · Cost Analysis</span>
+            <span class="paper-year">June 2026 - July 2026</span>
           </div>
-          <h2 class="paper-title">Anxiety Classification from EEG Signals Using Machine Learning</h2>
+          <h2 class="paper-title">What Drives 30-Day Readmissions in Medicare?</h2>
           <p class="paper-abstract">
-            Investigates the temporal limits of EEG-based anxiety classification using the OpenNeuro ds007609 dataset.
-            Demonstrates a systematic degradation in classification accuracy as target constructs become more temporally
-            distal — eyes-open/closed states outperform state anxiety, which outperforms trait anxiety.
+            Built a patient-level dataset from 66,773 Medicare inpatient claims to find who gets readmitted within
+            30 days and what it costs. Readmissions ran at 29.6%, concentrated in a small number of DRGs, and a $492
+            per-claim payment gap held up under hypothesis testing. An apparent decline in readmissions from 2008 to
+            2010 turned out to be an artifact of the synthetic dataset rather than a real trend. Built on CMS synthetic
+            claims data, so the method is the deliverable, not the numbers.
           </p>
           <div class="paper-footer">
             <div class="paper-keywords">
-              <span class="keyword">MNE-Python</span>
-              <span class="keyword">EEG</span>
-              <span class="keyword">Anxiety</span>
-              <span class="keyword">Random Forest</span>
+              <span class="keyword">BigQuery</span>
+              <span class="keyword">Python</span>
             </div>
             <span class="paper-link">
-              PDF
+              GitHub
               <svg viewBox="0 0 12 12" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
             </span>
           </div>
         </a>
 
-        <a class="paper-card" href="https://josh-threlkeld.com/Analysis-of-Frequency-Dependent-Features-in-Music-Genre-Differentiation.pdf" target="_blank" rel="noopener">
+        <a class="paper-card" href="https://josh-threlkeld.com/Resting-EEG-and-Anxiety.pdf" target="_blank" rel="noopener">
           <div class="paper-meta">
-            <span class="paper-tag">Audio · Classification</span>
-            <span class="paper-year">February 2026 - April 2026</span>
+            <span class="paper-tag">Research Paper · EEG</span>
+            <span class="paper-year">February 2026 - May 2026</span>
           </div>
-          <h2 class="paper-title">Music Genre Classification Using Machine Learning on the GTZAN Dataset</h2>
+          <h2 class="paper-title">Anxiety Classification from EEG Signals Using Machine Learning</h2>
           <p class="paper-abstract">
-            Applies machine learning to the GTZAN benchmark for automatic music genre classification.
-            Identifies classical and metal as top performers due to spectral distinctiveness. Explains
-            the blues anomaly through harmonic structure and random forest nonlinear feature interactions.
+            Tested how much resting-state EEG can tell you about anxiety, using the OpenNeuro ds007609 dataset.
+            Accuracy fell as the target moved further from the moment of recording, from eye state down to trait
+            anxiety. A signal that captures what the brain is doing right now says much less about stable traits.
           </p>
           <div class="paper-footer">
             <div class="paper-keywords">
-              <span class="keyword">GTZAN</span>
-              <span class="keyword">MFCCs</span>
+              <span class="keyword">EEG</span>
               <span class="keyword">Random Forest</span>
-              <span class="keyword">Librosa</span>
             </div>
             <span class="paper-link">
               PDF
@@ -638,10 +635,28 @@ footer > * {
         </a>
 
       </div>
+
+      <p class="section-label sub">Writing</p>
+      <div class="articles-grid">
+        <div class="article-card">
+          <h3 class="article-title">
+            <a href="prompt-to-product.html">Write-up of &#8220;From Prompt to Product: A Human-Centered Benchmark of Agentic App Generation Systems&#8221;</a>
+          </h3>
+          <div class="article-meta">
+            <span class="article-author">Josh Threlkeld</span>
+            <span class="article-date">June 19, 2026</span>
+          </div>
+          <p class="article-note">
+            Quome benchmarked Replit, Bolt, and Firebase Studio across 288 apps. Rated one at a time, the tools score
+            almost identically, but compared side by side a clear ranking emerges. The metrics investors tend to rely
+            on miss what users actually prefer.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <section id="projects">
-      <p class="section-label">Projects</p>
+    <section id="technical">
+      <p class="section-label">Technical Projects</p>
       <div class="papers-grid">
 
         <a class="paper-card" href="https://github.com/joshthrelkeld/clinical-nlp-rag" target="_blank" rel="noopener">
@@ -651,74 +666,14 @@ footer > * {
           </div>
           <h2 class="paper-title">Clinical NLP RAG Assistant</h2>
           <p class="paper-abstract">
-            Conversational Q&amp;A system over seven peer-reviewed and preprint papers on ambient AI documentation
-            in clinical settings. Sources span Abridge, Suki, and UCI Health deployments. Enables natural language
-            access to the literature without manual search. Containerized with Docker for reproducible deployment.
+            Q&amp;A assistant over published research on ambient AI clinical documentation, covering deployments at
+            Abridge, Suki, and UCI Health.
           </p>
           <div class="paper-footer">
             <div class="paper-keywords">
               <span class="keyword">LangChain</span>
               <span class="keyword">ChromaDB</span>
-              <span class="keyword">RAG</span>
               <span class="keyword">Docker</span>
-              <span class="keyword">Anthropic API</span>
-            </div>
-            <span class="paper-link">
-              GitHub
-              <svg viewBox="0 0 12 12" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <a class="paper-card" href="https://github.com/joshthrelkeld/eeg-rag-assistant" target="_blank" rel="noopener">
-          <div class="paper-meta">
-            <span class="paper-tag">EEG · RAG</span>
-            <span class="paper-year">June 2026 - August 2026</span>
-          </div>
-          <h2 class="paper-title">EEG RAG Assistant</h2>
-          <p class="paper-abstract">
-            Question-answering system grounded in a published EEG anxiety classification paper.
-            Ingests the PDF, embeds chunks with a local sentence transformer, stores them in ChromaDB,
-            and retrieves context for Claude to generate answers. Built on top of original research
-            to demonstrate RAG applied to domain-specific neuroscience literature.
-          </p>
-          <div class="paper-footer">
-            <div class="paper-keywords">
-              <span class="keyword">LangChain</span>
-              <span class="keyword">ChromaDB</span>
-              <span class="keyword">RAG</span>
-              <span class="keyword">Sentence Transformers</span>
-              <span class="keyword">Anthropic API</span>
-            </div>
-            <span class="paper-link">
-              GitHub
-              <svg viewBox="0 0 12 12" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <a class="paper-card" href="https://github.com/joshthrelkeld/cms-readmission-analysis" target="_blank" rel="noopener">
-          <div class="paper-meta">
-            <span class="paper-tag">Health Data · Analysis</span>
-            <span class="paper-year">June 2026 - July 2026</span>
-          </div>
-          <h2 class="paper-title">CMS Readmission Analysis</h2>
-          <p class="paper-abstract">
-            Which Medicare patients get readmitted within 30 days, and what does it cost? Built a
-            patient-level longitudinal pipeline over 66,773 inpatient claims in BigQuery, joining
-            annual beneficiary snapshots for demographics and chronic condition burden. Found a 29.6%
-            readmission rate concentrated in a handful of DRGs, and a $492 per-claim payment gap that
-            held up under hypothesis testing. Also caught an apparent decline across 2008-2010 that
-            turned out to be an artifact of the synthetic data, not a real trend. Run on CMS SynPUF,
-            so the methodology is the deliverable, not the numbers.
-          </p>
-          <div class="paper-footer">
-            <div class="paper-keywords">
-              <span class="keyword">BigQuery</span>
-              <span class="keyword">SQL Window Functions</span>
-              <span class="keyword">Python</span>
-              <span class="keyword">SciPy</span>
-              <span class="keyword">Matplotlib</span>
             </div>
             <span class="paper-link">
               GitHub
@@ -734,19 +689,14 @@ footer > * {
           </div>
           <h2 class="paper-title">Talkative Listener</h2>
           <p class="paper-abstract">
-            Real-time voice agent built as a Python streaming pipeline handling speech-to-text,
-            response generation, speech synthesis, and interruption mid-utterance. The harder problem
-            is knowing whether it holds up, so the project ends in a two-bot adversarial simulator
-            where one agent plays a difficult caller against a clinic scheduling agent, surfacing the
-            failure modes that a scripted test would never trigger.
+            Real-time voice agent for clinic scheduling, stress-tested against an adversarial AI caller built to
+            surface failures that scripted tests miss.
           </p>
           <div class="paper-footer">
             <div class="paper-keywords">
               <span class="keyword">Python</span>
               <span class="keyword">Deepgram</span>
-              <span class="keyword">Claude Haiku</span>
               <span class="keyword">ElevenLabs</span>
-              <span class="keyword">Silero VAD</span>
             </div>
             <span class="paper-link">
               GitHub
@@ -758,74 +708,45 @@ footer > * {
       </div>
     </section>
 
-    <section id="articles">
-      <p class="section-label">Articles</p>
-      <div class="articles-grid">
-       <div class="article-card">
-          <h3 class="article-title">
-            <a href="prompt-to-product.html">Write-up of &#8220;From Prompt to Product: A Human-Centered Benchmark of Agentic App Generation Systems&#8221;</a>
-          </h3>
-          <div class="article-meta">
-            <span class="article-author">Josh Threlkeld</span>
-            <span class="article-date">June 19, 2026</span>
-          </div>
-          <p class="article-note">
-            Quome Inc. benchmarked Replit, Bolt, and Firebase Studio across 288 apps and 1,071 pairwise comparisons. Isolated ratings are nearly identical — but side-by-side comparison reveals a clear hierarchy, and a gap between the signals investors rely on and the ones that actually surface user preference.
-          </p>
-        </div>
-
-        <div class="article-card">
-          <h3 class="article-title">
-            <a href="codex-sandbagging.html">OpenAI's GPT-5.3-Codex: Sandbagging and the Shifting Safety Calculus</a>
-          </h3>
-          <div class="article-meta">
-            <span class="article-author">Josh Threlkeld</span>
-            <span class="article-date">May 29, 2026</span>
-          </div>
-          <p class="article-note">
-            Apollo Research scored GPT-5.3-Codex 0.88/1.00 on a sabotage benchmark — outperforming human ML experts. A breakdown of what that means for the "it can't, not it won't" safety argument.
-          </p>
-        </div>
-
-      </div>
-
-    </section>
-
     <section id="about">
       <p class="section-label">About</p>
       <div class="about-grid">
         <div class="about-body">
           <p>
-          I graduated from USC in 2025 with a B.S. in Neuroscience. For two years I worked in a Fragile X syndrome lab at
-          USC's <a href="https://keck.usc.edu/zilkha/" target="_blank" rel="noopener">Zilkha Neurogenetic Institute</a>
-          on a Provost Research Fellowship. My contribution is acknowledged in
-          <a href="https://www.pnas.org/doi/10.1073/pnas.2517506123" target="_blank" rel="noopener">Colt et al., <em>PNAS</em> (2026)</a>.
-           </p>
+            I graduated from USC in 2025 with a B.S. in Neuroscience. For two years I worked in a Fragile X syndrome lab at
+            USC's <a href="https://keck.usc.edu/zilkha/" target="_blank" rel="noopener">Zilkha Neurogenetic Institute</a>
+            on a Provost Research Fellowship. My contribution is acknowledged in
+            <a href="https://www.pnas.org/doi/10.1073/pnas.2517506123" target="_blank" rel="noopener">Colt et al., <em>PNAS</em> (2026)</a>.
+          </p>
           <p>
-          Since August 2026 I've been a Research Associate at the
-          <a href="https://facingfacialpain.org" target="_blank" rel="noopener">Facial Pain Research Foundation</a>,
-          where I track and summarize new research on trigeminal neuralgia and related facial pain conditions.
-         </p>
-         <p>
-           Working in the lab made me more curious about the decisions around the science, like which programs get funded
-           and what a drug is worth before the data comes in.
-         </p>
+            Working in the lab made me more curious about the decisions around the science, like which programs get funded
+            and what a drug is worth before the data comes in.
+          </p>
+          <p>
+            Since August 2026 I've been a Research Associate at the
+            <a href="https://facingfacialpain.org" target="_blank" rel="noopener">Facial Pain Research Foundation</a>,
+            where I track and summarize new research on trigeminal neuralgia and related facial pain conditions.
+          </p>
           <p>
             I'm currently recruiting for analyst and associate roles in life sciences strategy.
           </p>
         </div>
         <div class="credentials">
           <div class="cred-row">
+            <span class="cred-label">Current</span>
+            <span class="cred-value">Research Associate, Facial Pain Research Foundation</span>
+          </div>
+          <div class="cred-row">
             <span class="cred-label">Education</span>
-            <span class="cred-value">B.S. Neuroscience — USC, 2025 (Cum Laude, 3.60)</span>
+            <span class="cred-value">B.S. Neuroscience, USC, 2025 (Cum Laude, 3.60)</span>
           </div>
           <div class="cred-row">
             <span class="cred-label">Research</span>
-            <span class="cred-value"> Neurogenetic Institute — Colt et al., PNAS (2026)</span>
+            <span class="cred-value">Zilkha Neurogenetic Institute, acknowledged in Colt et al., <em>PNAS</em> (2026)</span>
           </div>
           <div class="cred-row">
-            <span class="cred-label">GitHub</span>
-            <span class="cred-value"><a href="https://github.com/joshthrelkeld" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(38,35,32,0.2);">github.com/joshthrelkeld</a></span>
+            <span class="cred-label">LinkedIn</span>
+            <span class="cred-value"><a href="https://www.linkedin.com/in/joshuathrelkeld" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(38,35,32,0.2);">linkedin.com/in/joshuathrelkeld</a></span>
           </div>
           <div class="cred-row">
             <span class="cred-label">Location</span>
